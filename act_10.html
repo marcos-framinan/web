@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Cumpleaños</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f6fa;
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .recuadro {
+      display: inline-block;
+      background-color: #d1ecf1;
+      color: #0c5460;
+      border: 2px solid #0c5460;
+      border-radius: 10px;
+      padding: 20px 40px;
+      margin-top: 20px;
+      width: 300px;
+      text-align: left;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type="date"] {
+      margin: 10px;
+      padding: 5px;
+    }
+
+    input[type="button"] {
+      background-color: #17a2b8;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    input[type="button"]:hover {
+      background-color: #138496;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Calculadora de Cumpleaños</h2>
+
+  <label for="fecha">Fecha de nacimiento:</label>
+  <input type="date" id="fecha" name="fecha">
+  <input type="button" value="Calcular" onclick="calcular_anios()">
+
+  <div class="recuadro" id="resultado">
+    <p>Introduce tu fecha de nacimiento y presiona <b>Calcular</b>.</p>
+  </div>
+
+  <script>
+    function calcular_anios() {
+      const fechaInput = document.getElementById("fecha").value;
+      const fechaNacimiento = new Date(fechaInput);
+      const ahora = new Date(Date.now());
+      const anioActual = ahora.getFullYear();
+
+      let edad = anioActual - fechaNacimiento.getFullYear();
+      const haCumplido = 
+        ahora.getMonth() > fechaNacimiento.getMonth() ||
+        (ahora.getMonth() === fechaNacimiento.getMonth() && ahora.getDate() >= fechaNacimiento.getDate());
+      if (!haCumplido) edad--;
+
+      const mayorEdad = edad >= 18 ? "Eres mayor de edad." : "Eres menor de edad.";
+
+      let proximoCumple = new Date(anioActual, fechaNacimiento.getMonth(), fechaNacimiento.getDate());
+      if (proximoCumple < ahora) {
+        proximoCumple.setFullYear(anioActual + 1);
+      }
+
+      const falta = proximoCumple - ahora;
+      const diasRestantes = Math.ceil(falta / (1000 * 60 * 60 * 24));
+
+      document.getElementById("resultado").innerHTML = `
+        <h3>Resultado:</h3>
+        <p>Tu edad: <b>${edad}</b> años</p>
+        <p>${mayorEdad}</p>
+        <p>Faltan <b>${diasRestantes}</b> días para tu próximo cumpleaños</p>
+      `;
+    }
+
+</script>
+<script src="act_10_codigo.js">
+  
+</script>
+</body>
+</html>
